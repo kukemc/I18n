@@ -23,10 +23,6 @@ window.tempExt = {
         collaborator: "YUEN @ CCW",
         collaboratorURL: "https://www.ccw.site/student/236217560",
       },
-      {
-        collaborator: "FurryR @ GitHub",
-        collaboratorURL: "https://github.com/FurryR",
-      },
     ],
   },
   l10n: {
@@ -36,8 +32,11 @@ window.tempExt = {
     },
     en: {
       "kukeMCI18n.name": "I18n",
-      "kukeMCI18n.description":
-        "Your first game's multilingual extension, helping you effortlessly implement internationalization support for your game content.",
+      "kukeMCI18n.description": "Your first game's multilingual extension, helping you effortlessly implement internationalization support for your game content.",
+    },
+    uk: {
+      "kukeMCI18n.name": "I18n",
+      "kukeMCI18n.description": "Багатомовне розширення вашої першої гри, яке допоможе вам без зусиль реалізувати підтримку інтернаціоналізації вмісту вашої гри.",
     },
   },
 };

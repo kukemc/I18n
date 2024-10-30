@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import {franc, francAll} from 'franc-min'
+import { franc, francAll } from 'franc-min'
 import { kukemcI18nExtensionId, kukemcI18nIcon, supportedTranslateCodes } from "./assets";
 
 
@@ -7,7 +7,7 @@ export default class KukeMCI18n {
   constructor(runtime) {
     this.runtime = runtime;
     this.lastRequestTimestamp = 0;
-    
+
     /*
     获取 ScratchVM
     该段代码来源于 lpp 项目，并遵循 MIT 开源协议。
@@ -39,7 +39,7 @@ export default class KukeMCI18n {
       throw new Error('I18n cannot get Virtual Machine instance.');
     this.vm = virtualMachine;
     /** default config */
-    
+
     this._initialedI18n = {
       locales: {
         [this.language]: {
@@ -55,7 +55,7 @@ export default class KukeMCI18n {
       ["中文", "Chinese", "cn"],
       ["国际", "International", "intl"],
     ];
-  
+
     this._formatMessage = runtime.getFormatMessage({
       "zh-cn": {
         "kukeMCI18n.div.1": "🌍 初始化语言",
@@ -129,6 +129,44 @@ export default class KukeMCI18n {
         "kukeMCI18n.block.formatTimestamp": "format time [TIME] as [FORMAT]",
         "kukeMCI18n.block.example": "i18n example",
       },
+      uk: {
+        "kukeMCI18n.div.1": "🌍 Ініціалізація мови",
+        "kukeMCI18n.div.2": "💬 Обробка тексту",
+        "kukeMCI18n.div.3": "🎭 Мовне середовище",
+        "kukeMCI18n.div.4": "🔭 Переклад тексту",
+        "kukeMCI18n.div.5":
+          "⚠️ Наступні блоки доступні лише в редакторі ⚠️",
+        "kukeMCI18n.div.6": "🪄 Перетворення одиниць",
+        "kukeMCI18n.div.7": "✨ I18n приклад",
+        "kukeMCI18n.block.initI18nForJSON": "ініціалізувати переклади з JSON [JSON]",
+        "kukeMCI18n.block.initI18nForFile": "ініціалізувати переклади з файлу [FILE]",
+        "kukeMCI18n.block.setLanguage": "встановити мову на [LANG]",
+        "kukeMCI18n.block.getExtraData": "додаткові дані за [KEY]",
+        "kukeMCI18n.block.replaceText": "формат [TEXT] дата від [DATA]",
+        "kukeMCI18n.block.getLanguageForI18n": "поточна мова",
+        "kukeMCI18n.block.getLanguageForBrowser": "поточна мова браузера",
+        "kukeMCI18n.block.getSupportedLanguages": "усі підтримувані мови",
+        "kukeMCI18n.block.checkLanguageSupport": "ця [LANG] підтримується?",
+        "kukeMCI18n.block.recognitionLanguageName": "мова з [TEXT]",
+        "kukeMCI18n.block.recognitionLanguageNameAll": "усіма можливими мовами [TEXT]",
+        "kukeMCI18n.block.translateText":
+          "☁️ перекласти [TEXT] з [LANG1] в [LANG2]",
+        "kukeMCI18n.block.translateTextWithClipboard":
+          "☁️ перекласти [TEXT] з [LANG1] в [LANG2] потім скопіювати в буфер обміну",
+        "kukeMCI18n.button.printSupportedLanguages":
+          "☁️ роздрукувати список підтримуваних мов",
+        "kukeMCI18n.tip.rateLimit": "Ліміт тарифів перевищено! Повторіть спробу через кілька секунд.",
+        "kukeMCI18n.tip.allSupportedLanguages":
+          "Підтримує [NUM] мов загалом",
+        "kukeMCI18n.block.convertUnit":
+          "(Перетворення математичних одиниць) конвертувати [NUM] до [UNIT] одиниць",
+        "kukeMCI18n.block.getTimestamp": "локальна позначка часу",
+        "kukeMCI18n.block.getTimeZone": "місцевий часовий пояс",
+        "kukeMCI18n.block.offsetTimeZone":
+          "конвертувати час [TIME] від [ZONE1] до [ZONE2]",
+        "kukeMCI18n.block.formatTimestamp": "час формату [TIME] як [FORMAT]",
+        "kukeMCI18n.block.example": "i18n приклад",
+      },
     });
   }
 
@@ -168,7 +206,7 @@ export default class KukeMCI18n {
   }
 
   getInfo() {
-    this.language = this.vm.getLocale(); 
+    this.language = this.vm.getLocale();
     if (this.language === "zh-cn") {
       this.language = "zh-CN";
     }
@@ -505,13 +543,13 @@ export default class KukeMCI18n {
         TRANSLATE_LIST: {
           acceptReporters: true,
           items: supportedTranslateCodes.map((t) => {
-            if (this.language === "zh-CN"){
+            if (this.language === "zh-CN") {
               return {
                 text: `${t[0]}`,
                 value: t[2],
               };
             }
-            else{
+            else {
               return {
                 text: `${t[1]}`,
                 value: t[2],
@@ -636,8 +674,8 @@ export default class KukeMCI18n {
    * @return {String}
    */
   replaceText({ TEXT, DATA }) {
-      const values = JSON.parse(DATA);
-      return this.formatString(TEXT, values);
+    const values = JSON.parse(DATA);
+    return this.formatString(TEXT, values);
   }
 
   /**
@@ -706,15 +744,15 @@ export default class KukeMCI18n {
   async translateText({ TEXT, LANG1, LANG2 }) {
     if (this.runtime.isPlayerOnly) return "";
     if (LANG1 === LANG2) return TEXT;
-      if (!this.canRequest()) return "";
-      const req = await fetch("https://api-save.kuke.ink/api/translation", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text: TEXT, from: LANG1, to: LANG2 })
-      });
-      return req.ok ? req.text() : req.status;
+    if (!this.canRequest()) return "";
+    const req = await fetch("https://api-save.kuke.ink/api/translation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: TEXT, from: LANG1, to: LANG2 })
+    });
+    return req.ok ? req.text() : req.status;
   }
 
   /**
@@ -764,9 +802,8 @@ export default class KukeMCI18n {
           unitIndex++;
           divisor *= 1000;
         }
-        return `${Math.round((NUM / divisor) * 1000) / 1000}${
-          internationalUnits[unitIndex]
-        }`;
+        return `${Math.round((NUM / divisor) * 1000) / 1000}${internationalUnits[unitIndex]
+          }`;
       default:
         return `${NUM}`;
     }
@@ -809,30 +846,48 @@ export default class KukeMCI18n {
   }
 
   recognitionLanguageName({ TEXT }) {
-    return franc(TEXT,{minLength: TEXT.length});
+    return franc(TEXT, { minLength: TEXT.length });
   }
 
   recognitionLanguageNameAll({ TEXT }) {
-    return JSON.stringify(francAll(TEXT,{minLength: TEXT.length}));
+    return JSON.stringify(francAll(TEXT, { minLength: TEXT.length }));
   }
 
   example() {
     return JSON.stringify({
       "locales": {
         "zh-CN": {
-          "welcome": "欢迎使用 KukeMC 的 I18n 扩展。",
+          "welcome": "欢迎使用 酷可mc 的 I18n 扩展。",
           "info#example": "开发者需以示例所示的 JSON 格式提供翻译。",
           "info#format": "有时，翻译功能会和格式化同时使用。你可以通过使用 {字段名} 的格式来指定占位符。当你需要转义字符时请使用 {{。",
-          "info#additional": "你还可以取得 JSON 中的一些额外信息，比如 version，这些信息不受本地化设置影响。"
+          "info#additional": "你还可以取得 JSON 中的一些额外信息，比如 version，这些信息不受本地化设置影响。",
+          "info#recommend": "I18n 的翻译文件可以储存在 Gandi 左侧的 文件编辑器 中。",
+          "info#github": "如果你有任何问题，欢迎在 GitHub 上提交 issue。或是提交关于更多语言本地化支持的 issue 或 PR。",
+          "info#github_repository": "https://github.com/kukemc/I18n",
+          "author": "酷可mc@CCW",
         },
-        "en": {
-          "welcome": "Hello from KukeMC's I18n extension!",
-          "info#example": "You are required to provide translations in JSON format described in example.",
-          "info#format": "Formatting are used together with translation sometimes. You can use {field_name} to specify a placeholder. Use {{ when you need escape character.",
-          "info#additional": "You can also receive some extra configurations from JSON, for example, version. These values are not affected by localization settings."
-        }
+      },
+      "en": {
+        "welcome": "Hello from KukeMC's I18n extension!",
+        "info#example": "You are required to provide translations in JSON format described in example.",
+        "info#format": "Formatting are used together with translation sometimes. You can use {field_name} to specify a placeholder. Use {{ when you need escape character.",
+        "info#additional": "You can also receive some extra configurations from JSON, for example, version. These values are not affected by localization settings.",
+        "info#recommend": "The translation files for I18n can be stored in the File Editor on the left side of Gandi.",
+        "info#github": "If you have any questions, please submit an issue on GitHub. Or submit an issue or PR about more language localization support.",
+        "info#github_repository": "https://github.com/kukemc/I18n",
+        "author": "kukemc@CCW",
+      },
+      "uk": {
+        "welcome": "Привіт від KukeMC's I18n розширення!",
+        "info#example": "Ви повинні надати переклад на JSON формат, описаний у прикладі.",
+        "info#format": "Форматування іноді використовується разом із перекладом. Ви можете використовувати {field_name} щоб указати заповнювач. використовуйте {{ коли вам потрібен символ втечі.",
+        "info#additional": "Ви також можете отримати деякі додаткові конфігурації з JSON, наприклад, версію. На ці значення не впливають налаштування локалізації.",
+        "info#recommend": "Файли перекладу для I18n можна зберігати в Редакторі файлів у лівій частині Gandi.",
+        "info#github": "Якщо у вас є питання, ви можете відправити запит на GitHub. Або надішліть запит про додаткову локалізацію мови або PR.",
+        "info#github_repository": "https://github.com/kukemc/I18n",
+        "author": "Живчик@Cocrea, kukemc@CCW",
       },
       "version": "v1.0"
-  });
+    });
   }
 }
